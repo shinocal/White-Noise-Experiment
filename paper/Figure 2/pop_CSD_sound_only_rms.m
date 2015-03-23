@@ -1,4 +1,4 @@
-function [list,rmscsd] = pop_CSD_sound_only_rms(path,cond)
+function [list,rmscsd] = pop_CSD_sound_only_rms(path,cond,t_resp)
 
 list=file_list(path);
 
@@ -6,7 +6,7 @@ for i=1:length(list)
    rem_chans{i}=[]; 
 end
 
-t_resp=[0.05 0.15];
+
 exp_index=1;
 for list_index=1:2:length(list) 
 clearvars -except list list_index exp_index rmscsd cond t_resp

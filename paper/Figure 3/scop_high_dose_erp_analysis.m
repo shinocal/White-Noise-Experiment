@@ -14,9 +14,39 @@ list_postinf=list_postinf';
 %%
 close all
 clc
+
+%%
+close all
+clc
 clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
     peak_postinf list_postinf lfp_t trials_preinf trials_postinf
+vr_comb_preinf=cell(1,16);
+vr_comb_postinf=cell(1,16);
 
+% for mouse=1:length(volt_range_preinf.snd)
+for mouse=[1,3,4,5,6,7]
+    for channel=1:length(volt_range_preinf.snd{mouse})
+        
+      vr_comb_preinf{channel}=cat(2,vr_comb_preinf{channel},volt_range_preinf.snd{mouse}(channel)); 
+      vr_comb_postinf{channel}=cat(2,vr_comb_postinf{channel},volt_range_postinf.snd{mouse}(channel)); 
+        
+%       if mouse==length(volt_range_preinf.snd)
+%       [H{channel},P{channel}]=ttest(vr_comb_preinf{channel},vr_comb_postinf{channel});
+%       end
+    end
+    
+end
+
+
+vr_comb_preinf=mean(cell2mat(vr_comb_preinf'));
+
+vr_comb_postinf=mean(cell2mat(vr_comb_postinf'));
+
+[H,P]=ttest(vr_comb_preinf,vr_comb_postinf)
+
+%%
+clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
+    peak_postinf list_postinf lfp_t trials_preinf trials_postinf
 
 t_resp=0.15;
 
@@ -44,7 +74,6 @@ for mouse =1:length(volt_range_preinf.snd)
        [H(mouse,channel),P(mouse,channel)]=ttest2(vr_perm_preinf{mouse}{channel},vr_perm_postinf{mouse}{channel});
    end
 end
-
 
 
 %%
@@ -116,32 +145,10 @@ for mouse =1:length(volt_range_preinf.snd)
    end
 end
 
-%%
-close all
-clc
-clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
-    peak_postinf list_postinf lfp_t trials_preinf trials_postinf
-vr_comb_preinf=cell(1,16);
-vr_comb_postinf=cell(1,16);
 
-% for mouse=1:length(volt_range_preinf.snd)
-for mouse=[1,3,4,5,6,7]
-    for channel=1:length(volt_range_preinf.snd{mouse})
-        
-      vr_comb_preinf{channel}=cat(2,vr_comb_preinf{channel},volt_range_preinf.snd{mouse}(channel)); 
-      vr_comb_postinf{channel}=cat(2,vr_comb_postinf{channel},volt_range_postinf.snd{mouse}(channel)); 
-        
-      if mouse==length(volt_range_preinf.snd)
-      [H{channel},P{channel}]=ttest2(vr_comb_preinf{channel},vr_comb_postinf{channel});
-      end
-    end
-    
-end
 %%
 figure
 plot(lfp_t,ERP_allchans(5,:)')
-
-
 
 %%
 vr_preinf=[];

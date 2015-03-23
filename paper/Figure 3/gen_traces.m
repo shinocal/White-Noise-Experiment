@@ -6,7 +6,7 @@ end
 
 [aligned_trace_full] = align_lfp_multchan(lfp,Fs,TS,t_before,t_after);
 
-rej_fac=4; %factor for artifact rejection in standard deviations above mean rms
+rej_fac=3.5; %factor for artifact rejection in standard deviations above mean rms
 
 [rem_trial] = art_id_lfp(aligned_trace_full,Fs,rej_fac);
 % rem_rows=find(rem_trial==1);

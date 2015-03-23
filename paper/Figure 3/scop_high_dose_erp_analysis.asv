@@ -14,9 +14,39 @@ list_postinf=list_postinf';
 %%
 close all
 clc
+
+%%
+close all
+clc
 clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
     peak_postinf list_postinf lfp_t trials_preinf trials_postinf
+vr_comb_preinf=cell(1,16);
+vr_comb_postinf=cell(1,16);
 
+% for mouse=1:length(volt_range_preinf.snd)
+for mouse=[1,3,4,5,6,7]
+    for channel=1:length(volt_range_preinf.snd{mouse})
+        
+      vr_comb_preinf{channel}=cat(2,vr_comb_preinf{channel},volt_range_preinf.snd{mouse}(channel)); 
+      vr_comb_postinf{channel}=cat(2,vr_comb_postinf{channel},volt_range_postinf.snd{mouse}(channel)); 
+        
+%       if mouse==length(volt_range_preinf.snd)
+%       [H{channel},P{channel}]=ttest(vr_comb_preinf{channel},vr_comb_postinf{channel});
+%       end
+    end
+    
+end
+
+
+vr_comb_preinf=mean(cell2mat(vr_comb_preinf'));
+
+vr_comb_postinf=mean(cell2mat(vr_comb_postinf'));
+
+[H,P]=ttest(vr_comb_preinf,vr_comb_postinf)
+
+%%
+clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
+    peak_postinf list_postinf lfp_t trials_preinf trials_postinf
 
 t_resp=0.15;
 
@@ -45,6 +75,34 @@ for mouse =1:length(volt_range_preinf.snd)
    end
 end
 
+%%
+close all
+clc
+clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
+    peak_postinf list_postinf lfp_t trials_preinf trials_postinf
+
+mouse=4;
+figure
+channel=1
+clear sem
+sem.preinf=std(cell2mat(trials_preinf.snd{mouse}{channel}'))/sqrt(length(trials_preinf.snd{mouse}{channel}));
+sem.postinf=std(cell2mat(trials_preinf.snd{mouse}{channel}'))/sqrt(length(trials_preinf.snd{mouse}{channel}));
+
+plot(lfp_t*1000,ERP_preinf.snd{mouse}{channel},'k')
+hold on
+plot(lfp_t*1000,ERP_postinf.snd{mouse}{channel},'r')
+hold on
+legend('pre infusion','post infusion')
+av=ERP_preinf.snd{mouse}{channel};
+shadedErrorBar(lfp_t*1000,av,[av-sem.preinf;av+sem.preinf],'k',1)
+hold on
+av=ERP_postinf.snd{mouse}{channel};
+shadedErrorBar(lfp_t*1000,av,[av-sem.postinf;av+sem.postinf],'r',1)
+ylim([-1.5e-4 2e-4])
+xlim([-100 250])    
+xlabel('time [ms]')
+ylabel('ERP Mag. [V]')
+
 
 
 %%
@@ -72,6 +130,7 @@ av=ERP_postinf.snd{mouse}{channel};
 shadedErrorBar(lfp_t,av,[av-sem.postinf;av+sem.postinf],'r',1)
 % ylim([-1.1 1.1])
 xlim([-0.1 0.25])    
+
 end
 end
 
@@ -101,7 +160,8 @@ vr_trials_postinf{mouse}{channel}(trial)=(peak-trough)*1000;
     ,vr_trials_postinf{mouse}{channel});
 
 end   
-end  
+end
+end
 
 
 %%
@@ -115,32 +175,10 @@ for mouse =1:length(volt_range_preinf.snd)
    end
 end
 
-%%
-close all
-clc
-clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
-    peak_postinf list_postinf lfp_t trials_preinf trials_postinf
-vr_comb_preinf=cell(1,16);
-vr_comb_postinf=cell(1,16);
 
-% for mouse=1:length(volt_range_preinf.snd)
-for mouse=[1,3,4,5,6,7]
-    for channel=1:length(volt_range_preinf.snd{mouse})
-        
-      vr_comb_preinf{channel}=cat(2,vr_comb_preinf{channel},volt_range_preinf.snd{mouse}(channel)); 
-      vr_comb_postinf{channel}=cat(2,vr_comb_postinf{channel},volt_range_postinf.snd{mouse}(channel)); 
-        
-      if mouse==length(volt_range_preinf.snd)
-      [H{channel},P{channel}]=ttest2(vr_comb_preinf{channel},vr_comb_postinf{channel});
-      end
-    end
-    
-end
 %%
 figure
 plot(lfp_t,ERP_allchans(5,:)')
-
-
 
 %%
 vr_preinf=[];
