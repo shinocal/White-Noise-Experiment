@@ -75,6 +75,35 @@ for mouse =1:length(volt_range_preinf.snd)
    end
 end
 
+%%
+close all
+clc
+clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
+    peak_postinf list_postinf lfp_t trials_preinf trials_postinf
+
+mouse=4;
+figure
+channel=1;
+clear sem
+sem.preinf=std(cell2mat(trials_preinf.snd{mouse}{channel}'))/sqrt(length(trials_preinf.snd{mouse}{channel}));
+sem.postinf=std(cell2mat(trials_preinf.snd{mouse}{channel}'))/sqrt(length(trials_preinf.snd{mouse}{channel}));
+
+plot(lfp_t*1000,ERP_preinf.snd{mouse}{channel},'k')
+hold on
+plot(lfp_t*1000,ERP_postinf.snd{mouse}{channel},'r')
+hold on
+legend('pre infusion','post infusion')
+av=ERP_preinf.snd{mouse}{channel};
+shadedErrorBar(lfp_t*1000,av,[av-sem.preinf;av+sem.preinf],'k',1)
+hold on
+av=ERP_postinf.snd{mouse}{channel};
+shadedErrorBar(lfp_t*1000,av,[av-sem.postinf;av+sem.postinf],'r',1)
+ylim([-1.5e-4 2e-4])
+xlim([-100 250])    
+xlabel('time [ms]')
+ylabel('ERP Mag. [V]')
+
+
 
 %%
 close all
@@ -101,6 +130,7 @@ av=ERP_postinf.snd{mouse}{channel};
 shadedErrorBar(lfp_t,av,[av-sem.postinf;av+sem.postinf],'r',1)
 % ylim([-1.1 1.1])
 xlim([-0.1 0.25])    
+
 end
 end
 
