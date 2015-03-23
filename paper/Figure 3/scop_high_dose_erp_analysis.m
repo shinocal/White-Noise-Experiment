@@ -12,8 +12,6 @@ loc='C:\Nick Lab\SCRIPTS\White Noise Expmnt\LFP population data\4 condition\scop
 list_preinf=list_preinf';
 list_postinf=list_postinf';
 %%
-
-%github changes
 close all
 clc
 clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_postinf volt_range_postinf...
