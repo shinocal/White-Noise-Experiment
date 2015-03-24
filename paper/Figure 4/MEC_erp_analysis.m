@@ -2,18 +2,15 @@ clear
 clc
 close all
 
-loc='C:\Nick Lab\SCRIPTS\White Noise Expmnt\LFP population data\4 condition\scopolamine high dose\pre infusion\PFC';
+loc='C:\Nick Lab\SCRIPTS\White Noise Expmnt\LFP population data\4 condition\Mecamalymine\pre infusion\PFC';
 [ERP_preinf,trials_preinf,volt_range_preinf,peak_preinf,trough_preinf,peak_lat_preinf,list_preinf,lfp_t] = pop_ave_lfp_soundonly(loc,'pre infusion sound alone');
 
 clear loc
-loc='C:\Nick Lab\SCRIPTS\White Noise Expmnt\LFP population data\4 condition\scopolamine high dose\post infusion\PFC';
+loc='C:\Nick Lab\SCRIPTS\White Noise Expmnt\LFP population data\4 condition\Mecamalymine\post infusion\PFC';
 [ERP_postinf,trials_postinf,volt_range_postinf,peak_postinf,trough_postinf,peak_lat_postinf,list_postinf,lfp_t] = pop_ave_lfp_soundonly(loc,'post infusion sound alone');
 
 list_preinf=list_preinf';
 list_postinf=list_postinf';
-%%
-close all
-clc
 
 %%
 close all
@@ -23,8 +20,8 @@ clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_posti
 vr_comb_preinf=cell(1,16);
 vr_comb_postinf=cell(1,16);
 
-% for mouse=1:length(volt_range_preinf.snd)
-for mouse=[1,3,4,5,6,7]
+for mouse=1:length(volt_range_preinf.snd)
+% for mouse=[1,3,4,5,6,7]
     for channel=1:length(volt_range_preinf.snd{mouse})
         
       vr_comb_preinf{channel}=cat(2,vr_comb_preinf{channel},volt_range_preinf.snd{mouse}(channel)); 
@@ -36,7 +33,6 @@ for mouse=[1,3,4,5,6,7]
     end
     
 end
-
 
 vr_comb_preinf=mean(cell2mat(vr_comb_preinf'));
 
@@ -83,7 +79,7 @@ clearvars -except ERP_preinf volt_range_preinf peak_preinf list_preinf ERP_posti
 
 mouse=4;
 figure
-channel=1
+channel=1;
 clear sem
 sem.preinf=std(cell2mat(trials_preinf.snd{mouse}{channel}'))/sqrt(length(trials_preinf.snd{mouse}{channel}));
 sem.postinf=std(cell2mat(trials_preinf.snd{mouse}{channel}'))/sqrt(length(trials_preinf.snd{mouse}{channel}));

@@ -11,9 +11,6 @@ loc='C:\Nick Lab\SCRIPTS\White Noise Expmnt\LFP population data\4 condition\scop
 
 list_preinf=list_preinf';
 list_postinf=list_postinf';
-%%
-close all
-clc
 
 %%
 close all
@@ -36,7 +33,6 @@ for mouse=[1,3,4,5,6,7]
     end
     
 end
-
 
 vr_comb_preinf=mean(cell2mat(vr_comb_preinf'));
 
