@@ -37,6 +37,7 @@ for i =1:length(sub_mat_preinf)
     
 end   
 
+
    for n=1:length(sub_mat_preinf{i}.frstshnk)
    norm_preinf_avg.frstshnk{n}=mean(norm_preinf_pop.frstshnk{n},3);
    norm_preinf_avg.secshnk{n}=mean(norm_preinf_pop.secshnk{n},3);
